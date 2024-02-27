@@ -6,6 +6,7 @@ from env_settings import *
 if __name__ == '__main__':
 
     vmanage = VmanageRestApi(vmanage_ip, vmanage_user, vmanage_password)
+    print(vmanage.token)
     feature_profiles = vmanage.get_request('/v1/feature-profile/sdwan')
     for num, profile in enumerate(feature_profiles):
         print(f'{(num + 1):3}: {profile["profileType"]:20}   {profile["profileName"]}')
