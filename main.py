@@ -42,17 +42,20 @@ def fp_delete(feature_profiles):
                 else:
                     print('    Result: Skipped')
         else:
-            print(f'Feature profile {profile["profileId"]}: {profile["profileType"]:20} - {profile["profileName"]} is attached to {len(groups)} config groups.')
+            print(f'Feature profile {profile["profileId"]}: {profile["profileType"]:20} - {profile["profileName"]} '
+                  f'is attached to these {len(groups)} config groups.')
+            for group in groups:
+                print(f'    {group["id"]}: {group["name"]}')
     print('End of list.\n\n')
 
 if __name__ == '__main__':
 
     vmanage = VmanageRestApi(vmanage_ip, vmanage_user, vmanage_password)
-    config_groups = ConfigGroups(vmanage)
     menu = '1. Copy Feature Profile\n' \
            '2. Delete Unused Feature Profiles\n' \
            '3. Exit\n\n' \
            'Which operation do you want to do: '
+    config_groups = ConfigGroups(vmanage)
     while True:
         try:
             menu_choice = int(input(menu))
@@ -61,8 +64,10 @@ if __name__ == '__main__':
             continue
         if menu_choice == 1:
             fp_copy(config_groups.feature_profiles)
+            config_groups = ConfigGroups(vmanage)
         if menu_choice == 2:
             fp_delete(config_groups.feature_profiles)
+            config_groups = ConfigGroups(vmanage)
         if menu_choice == 3:
             vmanage.logout()
             exit()
