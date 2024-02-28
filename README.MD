@@ -8,18 +8,25 @@ Currently has 2 capabilities:
 # Use
 
 Running main.py prompts for SDWAN Manager address and credentials followed by a user menu.
+SDWAN Manager information is saved to environmental variables and password is encrypted.
 
 # Install
-clone repository:
-> git clone
+Requires python 3.9 or later
+
+Clone repository:
+> git clone https://github.com/dbrown92700/configGroups
 
 Recommend creating a virtual environment:
 > python -m venv venv \
 > source venv/bin/activate
 
-Install python dependancies
+Install python dependencies
 > pip install -r requirements.txt
 
 # Execute
 > ./main.py
+
+or
+
+> main.py
 
