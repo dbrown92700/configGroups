@@ -93,7 +93,10 @@ class VmanageRestApi:
 		headers = {'Content-Type': 'application/json'}
 		headers['X-XSRF-TOKEN'] = self.token
 		response = self.session[self.vmanage_ip].delete(url=url, headers=headers, verify=self.verify)
-		data = json.loads(response.content)
+		if response.content:
+			data = json.loads(response.content)
+		else:
+			data = {'result': 'success'}
 		return data
 
 	def logout(self):
