@@ -30,8 +30,8 @@ def fp_delete(feature_profiles):
     for profile in feature_profiles:
         groups = config_groups.feature_profile_attached(profile['profileId'])
         if not groups:
-            print(f'Feature profile {profile["profileId"]}: {profile["profileType"]:20} - {profile["profileName"]} '
-                  f'is attached to no config groups.')
+            print(f'\nFeature profile {profile["profileId"]}: {profile["profileType"]:20} - {profile["profileName"]}\n'
+                  f'  is attached to no config groups.')
             if profile['profileType'] in ['topology']:
                 print('    Cannot delete this profile type: skipped')
             else:
@@ -42,8 +42,8 @@ def fp_delete(feature_profiles):
                 else:
                     print('    Result: Skipped')
         else:
-            print(f'Feature profile {profile["profileId"]}: {profile["profileType"]:20} - {profile["profileName"]} '
-                  f'is attached to these {len(groups)} config groups.')
+            print(f'\nFeature profile {profile["profileId"]}: {profile["profileType"]:20} - {profile["profileName"]}\n'
+                  f'  is attached to these {len(groups)} config groups.')
             for group in groups:
                 print(f'    {group["id"]}: {group["name"]}')
     print('End of list.\n\n')
@@ -52,7 +52,7 @@ if __name__ == '__main__':
 
     vmanage = VmanageRestApi(vmanage_ip, vmanage_user, vmanage_password)
     menu = '1. Copy Feature Profile\n' \
-           '2. Delete Unused Feature Profiles\n' \
+           '2. List Feature Profile dependencies with option to delete unused Feature Profiles\n' \
            '3. Exit\n\n' \
            'Which operation do you want to do: '
     config_groups = ConfigGroups(vmanage)
