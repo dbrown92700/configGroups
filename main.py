@@ -6,6 +6,8 @@ from env_settings import *
 
 
 def fp_copy(feature_profiles):
+    # Lists current feature profiles and prompts user to copy one
+
     for num, profile in enumerate(feature_profiles):
         print(f'{(num + 1):3}: {profile["profileType"]:20}   {profile["profileName"]}')
     while True:
@@ -27,9 +29,22 @@ def fp_copy(feature_profiles):
 
 
 def fp_delete(feature_profiles):
+    # Lists all feature profiles and dependencies and provides the option to delete unused profiles
+
+    unused_profiles = []
+    print('\nFEATURE PROFILES IN USE:')
     for profile in feature_profiles:
         groups = config_groups.feature_profile_attached(profile['profileId'])
         if not groups:
+            unused_profiles.append(profile)
+        else:
+            print(f'\nFeature profile {profile["profileId"]}: {profile["profileType"]:20} - {profile["profileName"]}\n'
+                  f'  is attached to these {len(groups)} config groups.')
+            for group in groups:
+                print(f'    {group["id"]}: {group["name"]}')
+    choice = input('\nReview and selectively delete unused feature profiles? [yes] or no: ').lower() or 'yes'
+    if choice == 'yes':
+        for profile in unused_profiles:
             print(f'\nFeature profile {profile["profileId"]}: {profile["profileType"]:20} - {profile["profileName"]}\n'
                   f'  is attached to no config groups.')
             if profile['profileType'] in ['topology']:
@@ -41,12 +56,8 @@ def fp_delete(feature_profiles):
                     print(f'    Result: {result}')
                 else:
                     print('    Result: Skipped')
-        else:
-            print(f'\nFeature profile {profile["profileId"]}: {profile["profileType"]:20} - {profile["profileName"]}\n'
-                  f'  is attached to these {len(groups)} config groups.')
-            for group in groups:
-                print(f'    {group["id"]}: {group["name"]}')
-    print('End of list.\n\n')
+    print('\nEnd of list.\n\n')
+
 
 if __name__ == '__main__':
 
