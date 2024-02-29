@@ -2,7 +2,7 @@
 
 from vmanage_api import VmanageRestApi
 from config_groups import ConfigGroups
-from env_settings import *
+import argparse
 
 
 def fp_copy(feature_profiles):
@@ -62,6 +62,8 @@ def fp_delete(feature_profiles):
 
 
 if __name__ == '__main__':
+
+    from env_settings import *
 
     vmanage = VmanageRestApi(vmanage_ip, vmanage_user, vmanage_password)
     menu = '1. Copy Feature Profile\n' \
