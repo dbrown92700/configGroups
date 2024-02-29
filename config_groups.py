@@ -54,3 +54,4 @@ class ConfigGroups:
         result = self.vmanage.delete_request(f'/v1/feature-profile/sdwan/{detail["profileType"]}/{profile_id}')
 
         return result
+    

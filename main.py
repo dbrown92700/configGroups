@@ -31,6 +31,7 @@ def fp_copy(feature_profiles):
 def fp_delete(feature_profiles):
     # Lists all feature profiles and dependencies and provides the option to delete unused profiles
 
+    delete_choice = input('Do you want the option to selectively delete unused profiles: yes or [no]: ')
     unused_profiles = []
     print('\nFEATURE PROFILES IN USE:')
     for profile in feature_profiles:
@@ -42,20 +43,21 @@ def fp_delete(feature_profiles):
                   f'  is attached to these {len(groups)} config groups.')
             for group in groups:
                 print(f'    {group["id"]}: {group["name"]}')
-    choice = input('\nReview and selectively delete unused feature profiles? [yes] or no: ').lower() or 'yes'
-    if choice == 'yes':
-        for profile in unused_profiles:
-            print(f'\nFeature profile {profile["profileId"]}: {profile["profileType"]:20} - {profile["profileName"]}\n'
-                  f'  is attached to no config groups.')
-            if profile['profileType'] in ['topology']:
-                print('    Cannot delete this profile type: skipped')
-            else:
+    for profile in unused_profiles:
+        print(f'\nFeature profile {profile["profileId"]}: {profile["profileType"]:20} - {profile["profileName"]}\n'
+              f'  is attached to no config groups.')
+        if profile['profileType'] in ['topology']:
+            print('    Cannot delete this profile type: skipped')
+        else:
+            if delete_choice == 'yes':
                 choice = input('    Delete? yes or [no]: ').lower() or 'no'
-                if choice == 'yes':
-                    result = config_groups.feature_profile_delete(profile['profileId'])
-                    print(f'    Result: {result}')
-                else:
-                    print('    Result: Skipped')
+            else:
+                choice = 'no'
+            if choice == 'yes':
+                result = config_groups.feature_profile_delete(profile['profileId'])
+                print(f'    Result: {result}')
+            else:
+                print('    Result: Skipped')
     print('\nEnd of list.\n\n')
 
 
