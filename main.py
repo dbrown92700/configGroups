@@ -61,6 +61,15 @@ def fp_delete(feature_profiles):
     print('\nEnd of list.\n\n')
 
 
+def fp_sort():
+
+    for k in config_groups.feature_profiles[0].keys():
+        print(k)
+    sort_key = input('What field do you want to sort with: ')
+
+    return config_groups.feature_profiles_sort(sort_key)
+
+
 if __name__ == '__main__':
 
     from env_settings import *
@@ -68,7 +77,8 @@ if __name__ == '__main__':
     vmanage = VmanageRestApi(vmanage_ip, vmanage_user, vmanage_password)
     menu = '1. Copy Feature Profile\n' \
            '2. List Feature Profile dependencies with option to delete unused Feature Profiles\n' \
-           '3. Exit\n\n' \
+           '3. Sort Feature Profiles by key\n' \
+           '4. Exit\n\n' \
            'Which operation do you want to do: '
     config_groups = ConfigGroups(vmanage)
     while True:
@@ -84,5 +94,7 @@ if __name__ == '__main__':
             fp_delete(config_groups.feature_profiles)
             config_groups = ConfigGroups(vmanage)
         if menu_choice == 3:
+            fp_sort()
+        if menu_choice == 4:
             vmanage.logout()
             exit()

@@ -54,4 +54,11 @@ class ConfigGroups:
         result = self.vmanage.delete_request(f'/v1/feature-profile/sdwan/{detail["profileType"]}/{profile_id}')
 
         return result
+
+    def feature_profiles_sort(self, sort_key):
+
+        fp_sorted = sorted(self.feature_profiles, key=lambda x: x[sort_key])
+        self.feature_profiles = fp_sorted
+
+        return fp_sorted
     
