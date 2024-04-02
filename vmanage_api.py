@@ -45,7 +45,10 @@ class VmanageRestApi:
 		self.verify = False
 		self.login(self.vmanage_ip, username, password)
 		self.token = None
-		self.token = self.get_request('/client/token')
+		token = self.get_request('/client/token')
+		if len(token) < 256:
+			self.token = token
+
 
 	def login(self, vmanage_ip, username, password):
 

@@ -2,7 +2,7 @@
 
 from vmanage_api import VmanageRestApi
 from config_groups import ConfigGroups
-import argparse
+import urllib.parse
 
 
 def fp_copy(feature_profiles):
@@ -70,15 +70,39 @@ def fp_sort():
     return config_groups.feature_profiles_sort(sort_key)
 
 
+def config_unlock(vmanage_conn: VmanageRestApi, uuid: str):
+
+    url = f'/system/device/vedges?uuid={uuid}'
+    dev_detail = vmanage_conn.get_request(url)
+    sys_ip = dev_detail['data'][0]['configuredSystemIP']
+    url = f'/system/device/{urllib.parse.quote(uuid, safe="")}/unlock'
+    payload = {
+        "deviceType": "vedge",
+        "devices": [
+            {"deviceId": uuid,
+             "deviceIP": sys_ip}
+                    ]
+    }
+    result = vmanage_conn.post_request(url, payload)
+
+    return result
+
 if __name__ == '__main__':
 
     from env_settings import *
 
     vmanage = VmanageRestApi(vmanage_ip, vmanage_user, vmanage_password)
-    menu = '1. Copy Feature Profile\n' \
+    if vmanage.token:
+        print('\nvManage Login Success')
+    else:
+        print('\nvManage Login Failure\n')
+        exit()
+
+    menu = '\n1. Copy Feature Profile\n' \
            '2. List Feature Profile dependencies with option to delete unused Feature Profiles\n' \
            '3. Sort Feature Profiles by key\n' \
-           '4. Exit\n\n' \
+           '4. Config Unlock\n' \
+           '5. Exit\n\n' \
            'Which operation do you want to do: '
     config_groups = ConfigGroups(vmanage)
     while True:
@@ -96,5 +120,7 @@ if __name__ == '__main__':
         if menu_choice == 3:
             fp_sort()
         if menu_choice == 4:
+            config_unlock(vmanage, input('\nEnter device UUID: '))
+        if menu_choice == 5:
             vmanage.logout()
             exit()
