@@ -1,9 +1,11 @@
 # Overview
 Set of tools for manipulating feature profiles and config groups.
 
-Currently has 2 capabilities:
+Current capabilities:
 1. Copy a feature profile
 2. Display and prompt to delete feature profiles that aren't being used
+3. Sort feature profiles
+4. Config unlock a device from a Config Group (if this doesn't work in vManage properly)
 
 # Use
 
