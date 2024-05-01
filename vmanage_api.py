@@ -98,8 +98,11 @@ class VmanageRestApi:
 		response = self.session[self.vmanage_ip].delete(url=url, headers=headers, verify=self.verify)
 		if response.content:
 			data = json.loads(response.content)
-		else:
+		elif response.status_code == 200:
 			data = {'result': 'success'}
+		else:
+			data = {'result': 'failure'}
+
 		return data
 
 	def logout(self):
