@@ -35,11 +35,11 @@ def fp_delete():
     # Lists all feature profiles and dependencies and provides the option to delete unused profiles
 
     fp = FeatureProfiles(vmanage)
-    delete_choice = input('Do you want the option to selectively delete unused profiles: yes or [no]: ')
+    delete_choice = input('\nDo you want the option to selectively delete unused profiles: yes or [no]: ')
     choice = 'no'
     while True:
         try:
-            key_choice = int(input('Sort by:\n 1) Name\n 2) Type\n? '))
+            key_choice = int(input('\nSort profiles by:\n 1) Name\n 2) Type\nChoice? '))
             if key_choice in [1, 2]:
                 break
         except ValueError:
@@ -148,7 +148,7 @@ if __name__ == '__main__':
 
     menu = '\n' \
            '1. Feature Profile: Duplicate\n' \
-           '2. Feature Profile: List dependencies with option to delete unused\n' \
+           '2. Feature Profile: List profile dependencies with option to delete unused profiles\n' \
            '3. Topology Group: Duplicate\n' \
            '4. Topology Group: Delete\n' \
            '5. Policy Group: Duplicate a policy element (Application Priority & SLA Policy,\n' \

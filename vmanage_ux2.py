@@ -1,6 +1,5 @@
 from vmanage_api import VmanageRestApi
 import random
-import json
 
 
 class ConfigGroups:
@@ -44,7 +43,7 @@ class FeatureProfiles:
         return new_profile
 
     def is_part_of(self, profile_id: str) -> list:
-        # Returns a list of config groups that feature profile is attached to
+        # Returns a list of groups (config, policy, topology) that feature profile is used in
 
         config_groups = ConfigGroups(self.vmanage).config_groups
         topos = TopologyGroup(self.vmanage).topologies
@@ -72,21 +71,10 @@ class FeatureProfiles:
 
 
 class PolicyGroup:
-
+    # Have not found a need for this class so far
     def __init__(self, vmanage: VmanageRestApi):
         self.vmanage = vmanage
         self.policy_groups = self.vmanage.get_request('/v1/policy-group')
-
-
-    def dup_app_policy(self):
-        
-        ...
-    
-    def dup_emb_sec_policy(self):
-
-        ...
-
-
 
     def duplicate(self, topo_id: str, new_name='', new_description='') -> str:
 
@@ -110,10 +98,10 @@ class PolicyGroup:
                 new_id = profiles.duplicate(fp['id'])['id']
                 new_policy_group['profiles'].append({'id': new_id})
         url = '/v1/topology-group'
-        new_topo_id = self.vmanage.post_request(url, new_policy_group)
+        new_pol_id = self.vmanage.post_request(url, new_policy_group)
         self.policy_groups = self.vmanage.get_request('/v1/policy-group')
 
-        return new_topo_id
+        return new_pol_id
 
 
 class TopologyGroup:
